@@ -1,39 +1,46 @@
 <template>
-  <div class="movie-box" :style="{
-      backgroundImage: `url(${movieInfo.movie_banner})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    }">
-    <a class="a-back" v-on:click.stop="back">all list</a>
+  <div>
+    <div 
+    class="movie-box" :style="{
+        backgroundImage: `url(${movieInfo.movie_banner})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }">
+      <a class="a-back" v-on:click.stop="back">all list</a>
 
-    <div class="movie-detail">
-      <img class="movie-image" v-bind:src="movieInfo.image">
+      <div class="movie-detail">
+        <img class="movie-image" v-bind:src="movieInfo.image">
 
-      <div class="movie-info-wrap">
-        <h2 class="movie-title">{{movieInfo.title}} <small>{{movieInfo.original_title}}</small></h2>
-        <p class="movie-info">
-          Release Date : {{movieInfo.release_date}} <br />
-          Director : {{movieInfo.director}} <br />
-          Producer : {{movieInfo.producer}} <br />
-          Running Time : {{movieInfo.running_time}} 분
-        </p>
-        <p class="movie-desc">
-          {{movieInfo.description}}
-        </p>
+        <div class="movie-info-wrap">
+          <h2 class="movie-title">{{movieInfo.title}} <small>{{movieInfo.original_title}}</small></h2>
+          <p class="movie-info">
+            Release Date : {{movieInfo.release_date}} <br />
+            Director : {{movieInfo.director}} <br />
+            Producer : {{movieInfo.producer}} <br />
+            Running Time : {{movieInfo.running_time}} 분
+          </p>
+          <p class="movie-desc">
+            {{movieInfo.description}}
+          </p>
+        </div>
+
+
+
+
+
       </div>
-
-
-
-
-
     </div>
 
+  <Transition name="fade">
+    <div class="detail-intro" v-if="show">
+    </div>
+  </Transition>
   </div>
 </template>
 
 <script>
-  import {
-    computed
+import {
+    computed, onMounted, onUpdated,ref
   } from 'vue';
   // router 를 통해서 전송받은 데이터 활용
   import {
@@ -50,16 +57,31 @@
       // 상세정보 호출
       const store = useStore();
       store.dispatch('fetchMovieInfo', id)
+
       const movieInfo = computed(() => store.getters.getMovieInfo)
 
       const router = useRouter();
       const back = () => {
-        router.push('/');
+        router.push('/page_ghibli/');
       }
+
+      const show = ref(true);
+      onMounted( () => {
+        // 스크롤바를 최상단으로 이동시킨다.
+        window.scrollTo(0,0)
+        document.querySelector('html').style.overflowY = 'hidden';
+      })
+
+      onUpdated ( () => {
+        show.value= false;
+        document.querySelector('html').style.overflowY='auto';
+      } )
+
       return {
         id,
         movieInfo,
-        back
+        back,
+        show
       }
     }
   }
@@ -172,6 +194,28 @@
     padding: 20px;
     margin-block: 20px;
   }
+
+  .detail-intro {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url('@/assets/detail.jpg') no-repeat center;
+    background-size: cover;
+    z-index: 99;
+  }
+
+  .fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 
   @media screen and (max-width: 1000px) {
     .movie-image {

@@ -30,7 +30,6 @@ export default createStore({
   mutations:{
   // actions 에서 전송된 데이터 저장
     MOVIE_LIST_INIT(state,payload){
-      console.log(payload);  
       state.movieList = payload;
     },
     MOVIE_INFO(state,payload) {

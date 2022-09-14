@@ -23,7 +23,7 @@
     setup(props) {
       const router = useRouter();
       const detailMove = () => {
-        // props 를 참조하고자 할떄는 setup(props) 를 활용
+        // props 를 참조하고자 할때는 setup(props) 를 활용
         router.push('/detail/' + props.propsdata.id);
       }
 
