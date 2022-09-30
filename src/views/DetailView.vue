@@ -9,6 +9,8 @@
       <a class="a-back" v-on:click.stop="back">all list</a>
 
       <div class="movie-detail">
+
+        
         <img class="movie-image" v-bind:src="movieInfo.image">
 
         <div class="movie-info-wrap">
@@ -203,6 +205,7 @@ import {
     height: 100%;
     background: url('@/assets/detail.jpg') no-repeat center;
     background-size: cover;
+    background-color: #f7f7f7;
     z-index: 99;
   }
 

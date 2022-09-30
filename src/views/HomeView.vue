@@ -2,7 +2,7 @@
   <div class="movie" v-for="(item,index) in movieList" :key="index">
     <MovieList v-bind:propsdata="item" />
   </div>
-  <button class="gotop" ref="gotop" @click="moveTop">Top</button>
+  <button class="gotop" ref="gotop" @click="moveTop"><i class="fas fa-chevron-up"></i></button>
 </template>
 
 <script>
@@ -84,6 +84,11 @@
     z-index: 9;
     border: 1px solid #adaeb9;
     border-radius: 10px;
+  }
+
+  .fa-chevron-up {
+    font-size: 30px;
+    padding-top: 8px;
   }
 
   @media screen and (max-width: 1000px) {
